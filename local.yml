@@ -4,4 +4,4 @@
     source_key: "./.ssh/id_rsa"
     dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
   tasks:
-    - include: ./copy-ssh-keys.yml
+    - include: ./copy_ssh_keys.yml
