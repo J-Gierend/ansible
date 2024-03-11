@@ -1,7 +1,17 @@
-- hosts: localhost
+- name: installScript JG
+  hosts: localhost
   become: true
   vars:
     source_key: "./.ssh/id_rsa"
     dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
   tasks:
-    - include: ./copy_ssh_keys.yml
+    - name: Copy SSH Keys
+      include_tasks: ./tasks/copy_ssh_keys.yml
+      tags:
+        - ssh
+
+    - name: Install Docker
+      include_tasks: ./tasks/install_docker.yml  # Make sure this is a YAML file
+      tags:
+        - docker
+
