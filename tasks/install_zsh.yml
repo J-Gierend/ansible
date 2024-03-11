@@ -2,6 +2,7 @@
   apt:
     name: zsh
     state: present
+  become: false
   tags:
     - zsh
 
@@ -9,19 +10,39 @@
   user:
     name: "{{ lookup('env', 'USER') }}"
     shell: /bin/zsh
+  become: false
   tags:
     - zsh
 
-- name: Install oh-my-zsh
-  git:
-    repo:
-      - robbyrussell/oh-my-zsh
-    dest: ~/.oh-my-zsh
+- name: Install Oh My Zsh
+  ansible.builtin.shell:
+    cmd: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+    warn: false  # Use this to avoid Ansible warnings about using 'curl | sh', but be aware of the security implications.
+  args:
+    executable: /bin/bash
+  become: false
+  tags:
+    - zsh
 
-- name: Add zsh-auto-suggestions
-  git:
-    repo:
-      - zsh-users/zsh-autosuggestions
-    dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+
+- name: Configure Zsh plugins
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    line: "plugins=(git zsh-autosuggestions)"
+    create: yes
+    state: present
+  become: false
+  tags:
+    - zsh
+
+
+- name: Clone zsh-autosuggestions plugin
+  ansible.builtin.git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/plugins/zsh-autosuggestions"
+    version: master # or specify a specific tag/branch
+  become: false
+  tags:
+    - zsh
 
 

@@ -1,0 +1,9 @@
+- name: Add aliases to ~/.zshrc
+  hosts: localhost
+  tasks:
+    - name: Ensure aliases are added to ~/.zshrc
+      ansible.builtin.blockinfile:
+        path: "{{ lookup('env', 'HOME') }}/.zshrc"
+        block: "{{ lookup('file', '../aliases.txt') }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: aliases"
+      become: no
