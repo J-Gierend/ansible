@@ -45,4 +45,12 @@
   tags:
     - zsh
 
+- name: Update plugins line in ~/.zshrc
+  ansible.builtin.shell:
+    cmd: sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions)/' ~/.zshrc
+  args:
+    executable: /bin/bash
+  become: false
+  tags:
+    - zsh
 
