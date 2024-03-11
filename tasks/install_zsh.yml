@@ -1,0 +1,27 @@
+- name: Install zsh
+  apt:
+    name: zsh
+    state: present
+  tags:
+    - zsh
+
+- name: Set zsh as default shell
+  user:
+    name: "{{ lookup('env', 'USER') }}"
+    shell: /bin/zsh
+  tags:
+    - zsh
+
+- name: Install oh-my-zsh
+  git:
+    repo:
+      - robbyrussell/oh-my-zsh
+    dest: ~/.oh-my-zsh
+
+- name: Add zsh-auto-suggestions
+  git:
+    repo:
+      - zsh-users/zsh-autosuggestions
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+
+

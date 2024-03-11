@@ -15,3 +15,7 @@
       tags:
         - docker
 
+    - name: Install Zsh
+      include_tasks: ./tasks/install_zsh.yml
+      tags:
+        - zsh
